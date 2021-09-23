@@ -5,7 +5,7 @@
 #
 
 # Name of this project
-name: terraform-example-module
+name: terraform-helm-merge-values
 
 # Logo for this project
 #logo: docs/logo.png
@@ -15,12 +15,12 @@ license: "APACHE2"
 
 # Copyrights
 copyrights:
-  - name: "Cloud Posse, LLC"
-    url: "https://cloudposse.com"
+  - name: "Dabble of DevOps, SCorp"
+    url: "https://www.dabbleofdevops.com"
     year: "2020"
 
 # Canonical GitHub repo
-github_repo: cloudposse/terraform-example-module
+github_repo: dabble-of-devops-biodeploy/terraform-helm-merge-values
 
 # Badges to display
 badges:
@@ -36,9 +36,22 @@ badges:
 
 # List any related terraform modules that this module may be used with or that this module depends on.
 related:
+  - name: terraform-aws-eks-autoscaling
+    description: Terraform module to provision an Autoscaling EKS Cluster. Acts as a wrapper around cloudposse/terraform-aws-eks-cluster and cloudposse/terraform-aws-eks-node-groups
+    url: https://github.com/dabble-of-devops-biodeploy/terraform-aws-eks-autoscaling
+  - name: terraform-aws-eks-cluster
+    description: Terraform module to deploy an AWS EKS Cluster.
+    url: https://github.com/cloudposse/terraform-aws-eks-workers
+  - name: terraform-aws-eks-node-group
+    description: Terraform module to provision an EKS Node Group
+    url: https://github.com/cloudposse/terraform-aws-eks-node-group
   - name: "terraform-null-label"
     description: "Terraform module designed to generate consistent names and tags for resources. Use terraform-null-label to implement a strict naming convention."
     url: "https://github.com/cloudposse/terraform-null-label"
+
+# Short description of this project
+description: |
+  Terraform module to deploy a multiuser Jupyterhub + Dask Cluster on an existing EKS cluster using the DaskHub helm chart. It deploys the DaskHub Helm chart, and optionally configures SSL for you if you are using a domain name on AWS hosted with Route53.
 
 # List any resources helpful for someone to get started. For example, link to the hashicorp documentation or AWS documentation.
 references:
@@ -55,33 +68,53 @@ references:
     description: "The required_version setting can be used to constrain which versions of the Terraform CLI can be used with your configuration"
     url: "https://www.terraform.io/docs/configuration/terraform.html#specifying-a-required-terraform-version"
 
-# Short description of this project
-description: |-
-  This is `terraform-example-module` project provides all the scaffolding for a typical well-built Cloud Posse module. It's a template repository you can
-  use when creating new repositories.
 
 # Introduction to the project
-#introduction: |-
-#  This is an introduction.
+introduction: |-
+  This module was written because:
+
+    ```
+      helm install release_name chart \
+        --values values1.yaml \
+        --values values2.yaml \
+        --values values3.yaml
+    ```
+
+    Does not merge the values yaml files. I wanted to be able to write my files separately, and then combine at the end.
 
 # How to use this module. Should be an easy example to copy and paste.
 usage: |-
+  *External Dependencies*
+  You must have the python module `hiyapyco` installed.
+
+  ```
+  pip install hiyapyco
+  ```
+
   For a complete example, see [examples/complete](examples/complete).
-  
+
   For automated tests of the complete example using [bats](https://github.com/bats-core/bats-core) and [Terratest](https://github.com/gruntwork-io/terratest)
   (which tests and deploys the example on AWS), see [test](test).
 
+  For more information on how to handle filepaths in terraform see the [file functions docs](https://www.terraform.io/docs/language/functions/abspath.html) and [path functions](https://www.terraform.io/docs/language/expressions/references.html#filesystem-and-workspace-info).
+
   ```hcl
-  module "example" {
-    source = "https://github.com/cloudposse/terraform-example-module.git?ref=master"
-    example = "Hello world!"
+  module "merge_values" {
+    source = "dabble-of-devops-biodeploy/merge-values/helm"
+
+    helm_values_files = [
+    abspath("helm_charts/daskhub/secrets.yaml")
+    ]
+    helm_values_dir = abspath("${path.module}/")
+
+    context = module.this.context
   }
   ```
 
 # Example usage
 examples: |-
   Here is an example of using this module:
-  - [`examples/complete`](https://github.com/cloudposse/terraform-example-module/) - complete example of using this module
+  - [`examples/complete`](https://github.com/dabble-of-devops-biodeploy/terraform-helm-merge-values/) - complete example of using this module
 
 # How to get started quickly
 #quickstart: |-
@@ -94,5 +127,5 @@ include:
 
 # Contributors to this project
 contributors:
-  - name: "Erik Osterman"
-    github: "osterman"
+  - name: "Jillian Rowe"
+    github: "jerowe"

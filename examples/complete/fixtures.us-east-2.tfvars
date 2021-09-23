@@ -1,10 +1,12 @@
-region = "us-east-2"
+# region = "us-east-2"
 
-namespace = "eg"
+# namespace = "eg"
 
-environment = "ue2"
+# environment = "ue2"
 
-stage = "test"
+# stage = "test"
 
-name = "example"
+# name = "example"
 
+helm_values_dir = "helm"
+helm_values_files = [ "values1.yaml", "values2.yaml" ]

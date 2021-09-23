@@ -1,14 +1,25 @@
-output "id" {
-  description = "ID of the created example"
-  value       = module.this.enabled ? module.this.id : null
+output "merged_values_file" {
+  description = "Merged values file"
+  value       = abspath("${var.helm_values_dir}/computed-${random_string.computed_values.result}-values.yaml")
 }
 
-output "example" {
-  description = "Example output"
-  value       = module.this.enabled ? local.example : null
+output "helm_values_files" {
+  description = "Listing the values file for debugging"
+  value       = var.helm_values_files
 }
 
-output "random" {
-  description = "Stable random number for this example"
-  value       = module.this.enabled ? join("", random_integer.example[*].result) : null
+output "helm_values_dir" {
+  value = abspath(var.helm_values_dir)
+}
+
+output "merge_helm_values_files_command" {
+  value = <<EOT
+    chmod 777 *py
+    mkdir -p ${var.helm_values_dir}
+    python ${path.module}/merge_yamls.py --yaml-files \
+     %{for value_file in var.helm_values_files~}
+        ${value_file} \
+     %{endfor~}
+     --output ${var.helm_values_dir}/computed-${random_string.computed_values.result}-values.yaml
+    EOT
 }
