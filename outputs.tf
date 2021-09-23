@@ -1,6 +1,6 @@
-output "merged_values_file" {
+output "helm_values_merged_file" {
   description = "Merged values file"
-  value       = abspath("${var.helm_values_dir}/computed-${random_string.computed_values.result}-values.yaml")
+  value       = local.helm_values_merged_file
 }
 
 output "helm_values_files" {
@@ -17,9 +17,9 @@ output "merge_helm_values_files_command" {
     chmod 777 *py
     mkdir -p ${var.helm_values_dir}
     python ${path.module}/merge_yamls.py --yaml-files \
-     %{for value_file in var.helm_values_files~}
+     %{for value_file in local.helm_values_files~}
         ${value_file} \
      %{endfor~}
-     --output ${var.helm_values_dir}/computed-${random_string.computed_values.result}-values.yaml
+     --output ${local.helm_values_merged_file}
     EOT
 }
