@@ -1,5 +1,4 @@
 module "merge_values" {
-  # source = "dabble-of-devops-biodeploy/merge-values/helm"
   source = "../.."
 
   helm_values_files = var.helm_values_files
