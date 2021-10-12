@@ -1,8 +1,3 @@
-output "helm_values_merged_file" {
-  description = "Merged values file"
-  value       = local.helm_values_merged_file
-}
-
 output "helm_values_files" {
   description = "Listing the values file for debugging"
   value       = var.helm_values_files
@@ -20,6 +15,6 @@ output "merge_helm_values_files_command" {
      %{for value_file in local.helm_values_files~}
         ${value_file} \
      %{endfor~}
-     --output ${local.helm_values_merged_file}
+     --output ${var.helm_release_merged_values_file}
     EOT
 }
