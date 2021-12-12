@@ -11,5 +11,6 @@ variable "helm_values_dir" {
 
 variable "helm_release_merged_values_file" {
   type = string
-  description = "Path to merged helm files. This path must exist before the module is invoked."
+  description = "Path to merged helm files. If none is supplied one will be created for you."
+  default = ""
 }

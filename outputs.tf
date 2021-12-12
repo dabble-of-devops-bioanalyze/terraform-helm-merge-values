@@ -15,6 +15,10 @@ output "merge_helm_values_files_command" {
      %{for value_file in local.helm_values_files~}
         ${value_file} \
      %{endfor~}
-     --output ${var.helm_release_merged_values_file}
+     --output ${local.helm_release_merged_values_file}
     EOT
+}
+
+output "helm_release_merged_values_file" {
+  value = local.helm_release_merged_values_file
 }
