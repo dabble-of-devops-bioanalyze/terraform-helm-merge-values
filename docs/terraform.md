@@ -38,6 +38,7 @@
 | <a name="input_descriptor_formats"></a> [descriptor\_formats](#input\_descriptor\_formats) | Describe additional descriptors to be output in the `descriptors` output map.<br>Map of maps. Keys are names of descriptors. Values are maps of the form<br>`{<br>   format = string<br>   labels = list(string)<br>}`<br>(Type is `any` so the map values can later be enhanced to provide additional options.)<br>`format` is a Terraform format string to be passed to the `format()` function.<br>`labels` is a list of labels, in order, to pass to `format()` function.<br>Label values will be normalized before being passed to `format()` so they will be<br>identical to how they appear in `id`.<br>Default is `{}` (`descriptors` output will be empty). | `any` | `{}` | no |
 | <a name="input_enabled"></a> [enabled](#input\_enabled) | Set to false to prevent the module from creating any resources | `bool` | `null` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | ID element. Usually used for region e.g. 'uw2', 'us-west-2', OR role 'prod', 'staging', 'dev', 'UAT' | `string` | `null` | no |
+| <a name="input_helm_release_merged_values_file"></a> [helm\_release\_merged\_values\_file](#input\_helm\_release\_merged\_values\_file) | Path to merged helm files. If none is supplied one will be created for you. | `string` | `""` | no |
 | <a name="input_helm_values_dir"></a> [helm\_values\_dir](#input\_helm\_values\_dir) | Directory to store additional daskhub values files. | `string` | n/a | yes |
 | <a name="input_helm_values_files"></a> [helm\_values\_files](#input\_helm\_values\_files) | Paths to additional values files to pass into the helm install command. | `list(string)` | `[]` | no |
 | <a name="input_id_length_limit"></a> [id\_length\_limit](#input\_id\_length\_limit) | Limit `id` to this many characters (minimum 6).<br>Set to `0` for unlimited length.<br>Set to `null` for keep the existing setting, which defaults to `0`.<br>Does not affect `id_full`. | `number` | `null` | no |
@@ -56,5 +57,8 @@
 
 | Name | Description |
 |------|-------------|
-| <a name="output_merged_values_file"></a> [merged\_values\_file](#output\_merged\_values\_file) | Merged values file |
+| <a name="output_helm_release_merged_values_file"></a> [helm\_release\_merged\_values\_file](#output\_helm\_release\_merged\_values\_file) | n/a |
+| <a name="output_helm_values_dir"></a> [helm\_values\_dir](#output\_helm\_values\_dir) | n/a |
+| <a name="output_helm_values_files"></a> [helm\_values\_files](#output\_helm\_values\_files) | Listing the values file for debugging |
+| <a name="output_merge_helm_values_files_command"></a> [merge\_helm\_values\_files\_command](#output\_merge\_helm\_values\_files\_command) | n/a |
 <!-- markdownlint-restore -->
