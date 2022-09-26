@@ -12,13 +12,13 @@ output "merge_helm_values_files_command" {
     chmod 777 *py
     mkdir -p ${var.helm_values_dir}
     python ${path.module}/merge_yamls.py --yaml-files \
-     %{for value_file in local.helm_values_files~}
+     %{for value_file in var.helm_values_files~}
         ${value_file} \
      %{endfor~}
-     --output ${local.helm_release_merged_values_file}
+     --output ${var.helm_release_merged_values_file}
     EOT
 }
 
 output "helm_release_merged_values_file" {
-  value = local.helm_release_merged_values_file
+  value = var.helm_release_merged_values_file
 }
